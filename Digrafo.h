@@ -13,10 +13,16 @@
 #define DIGRAFO_H
 
 #include <vector>
+#include "Aresta.h"
 
 class Digrafo {
      Digrafo(int num_vertices);
-     
+
+     bool existeAresta(Aresta e);
+     void createAresta(Aresta e);
+     void removeAresta(Aresta e);
+     bool verticeValido(int v);
+
 private:
     int num_vertices_;
     int num_arestas_;

@@ -11,6 +11,7 @@
  */
 
 #include "Digrafo.h"
+#include "Aresta.cpp"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -29,4 +30,32 @@ Digrafo::Digrafo(int num_vertices)
     {
         matriz_[i].resize(num_vertices, 0); // define a quantidade de colunas, e o valor a ser inserido
     }
+}
+bool Digrafo::verticeValido(int v)
+{
+    if (v < 0 || v >= num_vertices_)
+    {
+        return false;
+    }
+    return true;
+}
+
+    bool Digrafo::existeAresta(Aresta e)
+{
+    if (matriz_[e.v1][e.v2] == 1)
+    {
+        return true;
+    }
+        return false;
+}
+void Digrafo::createAresta(Aresta e)
+{
+    if ((e.v1 != e.v2) && existeAresta(e) && verticeValido(e.v1) && verticeValido(e.v2))
+    {
+        matriz_[e.v1][e.v2] = 1;
+    }
+}
+void Digrafo::removeAresta(Aresta e)
+{
+    matriz_[e.v1][e.v2] = 0;
 }
