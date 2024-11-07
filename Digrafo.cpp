@@ -50,11 +50,12 @@ bool Digrafo::verticeValido(int v)
 }
 void Digrafo::createAresta(Aresta e)
 {
-    if(verticeValido(e.v1) && verticeValido(e.v2)){
+    if(!verticeValido(e.v1) && !verticeValido(e.v2)){
+        
         return;
     }
 
-    if ((e.v1 != e.v2) && existeAresta(e))
+    if ((e.v1 != e.v2) && !existeAresta(e))
     {
         matriz_[e.v1][e.v2] = 1;
     }
