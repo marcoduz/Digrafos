@@ -10,13 +10,17 @@
  * Matricula: 2311100035
  */
 #ifndef DIGRAFO_H
-
 #define DIGRAFO_H
 
+#include <vector>
+
 class Digrafo {
-
-    /* Complete aqui */
-
+     Digrafo(int num_vertices);
+     
+private:
+    int num_vertices_;
+    int num_arestas_;
+    std::vector<std::vector<int>> matriz_;
 };
 
 #endif /* DIGRAFO_H */
