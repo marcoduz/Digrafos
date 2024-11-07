@@ -64,3 +64,12 @@ void Digrafo::removeAresta(Aresta e)
 {
     matriz_[e.v1][e.v2] = 0;
 }
+
+void Digrafo::digrafoImprime(){
+    for (int i=0; i < num_vertices_; i++){
+    cout << "\n";
+        for(int j = 0; j < num_vertices_; j++){
+            cout << matriz_[i][j];
+        }
+    }
+}
