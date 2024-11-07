@@ -74,3 +74,66 @@ void Digrafo::digrafoImprime(){
         }
     }
 }
+
+// Função de DFS
+void DFS(Digrafo &g, int v, vector<bool> &visitado, stack<int> &pilha) {
+    visitado[v] = true;
+    for (int i = 0; i < g.num_vertices_; i++) {
+        if (g.matriz_[v][i] && !visitado[i]) {
+            DFS(g, i, visitado, pilha);
+        }
+    }
+    pilha.push(v);
+}
+
+// Função de DFS reverso para o transposto
+void DFSUtil(Digrafo &g, int v, vector<bool> &visitado) {
+    visitado[v] = true;
+    cout << v << " ";
+    for (int i = 0; i < g.num_vertices_; i++) {
+        if (g.matriz_[i][v] && !visitado[i]) {
+            DFSUtil(g, i, visitado);
+        }
+    }
+}
+
+// Função para obter o grafo transposto
+Digrafo getTransposto(Digrafo &g) {
+    Digrafo gT(g.num_vertices_);
+    for (int v = 0; v < g.num_vertices_; v++) {
+        for (int i = 0; i < g.num_vertices_; i++) {
+            if (g.matriz_[v][i]) {
+                gT.matriz_[i][v] = 1;
+            }
+        }
+    }
+    return gT;
+}
+
+// Função principal para encontrar componentes fortemente conexos
+void Kosaraju(Digrafo &g) {
+    stack<int> pilha;
+    vector<bool> visitado(g.num_vertices_, false);
+
+    // Passo 1: Preencher a pilha com a ordem de término dos vértices
+    for (int i = 0; i < g.num_vertices_; i++) {
+        if (!visitado[i]) {
+            DFS(g, i, visitado, pilha);
+        }
+    }
+
+    // Passo 2: Obter o grafo transposto
+    Digrafo gT = getTransposto(g);
+    fill(visitado.begin(), visitado.end(), false);
+
+    // Passo 3: Processar os vértices na ordem definida pela pilha
+    while (!pilha.empty()) {
+        int v = pilha.top();
+        pilha.pop();
+
+        if (!visitado[v]) {
+            DFSUtil(gT, v, visitado);
+            cout << "\n";
+        }
+    }
+}
