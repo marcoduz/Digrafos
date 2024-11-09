@@ -9,11 +9,9 @@
  * Nome:      Wendell Luis Neris
  * Matricula: 2311100035
  */
+#include "Digrafo.h" 
+#include "Aresta.h" 
 #include <iostream>
-#include <vector>
-#include "Aresta.h"
-#include "Digrafo.h"
-#include "Digrafo.cpp"
 using namespace std;
 
 int main()

@@ -11,65 +11,51 @@
  */
 
 #include "Digrafo.h"
-#include "Aresta.cpp"
 #include <iostream>
-#include <vector>
+#include <stdexcept>
 using namespace std;
 
-Digrafo::Digrafo(int num_vertices)
-{
-    if (num_vertices <= 0)
-    {
+Digrafo::Digrafo(int num_vertices) {
+    if (num_vertices <= 0) {
         throw(invalid_argument("O numero de vertices deve ser maior que 0"));
     }
     num_vertices_ = num_vertices;
     num_arestas_ = 0;
 
-    matriz_.resize(num_vertices); // define a quantidade de linhas
-    for (int i = 0; i < num_vertices; i++)
-    {
-        matriz_[i].resize(num_vertices, 0); // define a quantidade de colunas, e o valor a ser inserido
+    matriz_.resize(num_vertices);
+    for (int i = 0; i < num_vertices; i++) {
+        matriz_[i].resize(num_vertices, 0);
     }
-}
-bool Digrafo::verticeValido(int v)
-{
-    if (v < 0 || v >= num_vertices_)
-    {
-        return false;
-    }
-    return true;
 }
 
-    bool Digrafo::existeAresta(Aresta e)
-{
-    if (matriz_[e.v1][e.v2] == 1)
-    {
-        return true;
-    }
-        return false;
+bool Digrafo::verticeValido(int v) {
+    return v >= 0 && v < num_vertices_;
 }
-void Digrafo::createAresta(Aresta e)
-{
-    if(!verticeValido(e.v1) && !verticeValido(e.v2)){
-        
+
+bool Digrafo::existeAresta(Aresta e) {
+    return matriz_[e.v1][e.v2] == 1;
+}
+
+void Digrafo::createAresta(Aresta e) {
+    if(!verticeValido(e.v1) || !verticeValido(e.v2)){
         return;
     }
 
-    if ((e.v1 != e.v2) && !existeAresta(e))
-    {
+    if ((e.v1 != e.v2) && !existeAresta(e)) {
         matriz_[e.v1][e.v2] = 1;
+        num_arestas_++;
     }
-    
-}
-void Digrafo::removeAresta(Aresta e)
-{
-    matriz_[e.v1][e.v2] = 0;
 }
 
-void Digrafo::digrafoImprime(){
-    for (int i=0; i < num_vertices_; i++){
-    cout << "\n";
-        for(int j = 0; j < num_vertices_; j++){
+void Digrafo::removeAresta(Aresta e) {
+    matriz_[e.v1][e.v2] = 0;
+    num_arestas_--;
+}
+
+void Digrafo::digrafoImprime() {
+    for (int i = 0; i < num_vertices_; i++) {
+        cout << "\n";
+        for (int j = 0; j < num_vertices_; j++) {
             cout << matriz_[i][j];
         }
     }

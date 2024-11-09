@@ -11,17 +11,14 @@
  */
 
 #ifndef ARESTA_H
-
 #define ARESTA_H
 
 class Aresta {
-
-    public:
-    const int v1;
-    const int v2;
-
+public:
     Aresta(int v1, int v2);
-
+    int v1;
+    int v2;
 };
 
-#endif /* ARESTA_H */
+#endif // ARESTA_H
+

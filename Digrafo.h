@@ -15,19 +15,14 @@
 #include <vector>
 #include "Aresta.h"
 
-
 class Digrafo {
-    public:
-        Digrafo(int num_vertices);
-
-        bool existeAresta(Aresta e);
-        void createAresta(Aresta e);
-        void removeAresta(Aresta e);
-        bool verticeValido(int v);
-        void digrafoImprime();
-        // void Kosaraju(Digrafo &g);
-        // void DFS(Digrafo &g, int v, vector<bool> &visitado, stack<int> &pilha);
-        // void DFSUtil(Digrafo &g, int v, vector<bool> &visitado);
+public:
+    Digrafo(int num_vertices);
+    bool verticeValido(int v);
+    bool existeAresta(Aresta e);
+    void createAresta(Aresta e);
+    void removeAresta(Aresta e);
+    void digrafoImprime();
 
 private:
     int num_vertices_;
@@ -35,4 +30,8 @@ private:
     std::vector<std::vector<int>> matriz_;
 };
 
-#endif /* DIGRAFO_H */
+#endif // DIGRAFO_H
+
+// void Kosaraju(Digrafo &g);
+ // void DFS(Digrafo &g, int v, vector<bool> &visitado, stack<int> &pilha);
+ // void DFSUtil(Digrafo &g, int v, vector<bool> &visitado);
