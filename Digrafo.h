@@ -25,9 +25,9 @@ class Digrafo {
         void removeAresta(Aresta e);
         bool verticeValido(int v);
         void digrafoImprime();
-        void Kosaraju(Digrafo &g);
-        void DFS(Digrafo &g, int v, vector<bool> &visitado, stack<int> &pilha);
-        void DFSUtil(Digrafo &g, int v, vector<bool> &visitado);
+        // void Kosaraju(Digrafo &g);
+        // void DFS(Digrafo &g, int v, vector<bool> &visitado, stack<int> &pilha);
+        // void DFSUtil(Digrafo &g, int v, vector<bool> &visitado);
 
 private:
     int num_vertices_;
