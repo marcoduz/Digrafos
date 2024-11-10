@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <vector>
 #include <stack>
+
 using namespace std;
 
 Digrafo::Digrafo(int num_vertices)
@@ -91,14 +92,15 @@ void Digrafo::DFS(int v, vector<bool> &visitado, stack<int> &pilha)
     pilha.push(v);
 }
 
-void Digrafo::DFSUtil(int v, vector<bool> &visitado)
+void Digrafo::DFSUtil(int v, vector<bool> &visitado, int qtdComponentes, std::vector<int> &componente)
 {
     visitado[v] = true;
+    componente[v] = qtdComponentes;
     for (int i = 0; i < get_num_vertices(); i++)
     {
         if (matriz_[v][i] && !visitado[i])
         {
-            DFSUtil(i, visitado);
+            DFSUtil(i, visitado, qtdComponentes, componente);
         }
     }
 }
@@ -121,11 +123,40 @@ Digrafo getTransposto(Digrafo &g)
     return gT;
 }
 
-int Digrafo::Kosaraju()
+void Digrafo::criaGrafoCondensado(int numCFCs, Digrafo &condensado, Digrafo &g, std::vector<int> &componente)
+{
+    condensado.get_matriz().resize(numCFCs);
+
+    for (int u = 0; u < g.get_num_vertices(); u++)
+    {
+        for (int v = 0; v < g.get_num_vertices(); v++)
+        {
+            if (g.get_matriz()[u][v] && componente[u] != componente[v])
+            {
+                condensado.get_matriz()[componente[u]].push_back(componente[v]);
+            }
+        }
+    }
+}
+
+void Digrafo::mostraConexoesEntreCFCs(Digrafo &condensado)
+{
+    for (int i = 0; i <= condensado.get_matriz().size(); i++)
+    {
+        std::cout << "CFC " << i << " está ligado a: ";
+        for (int v : condensado.get_matriz()[i])
+        {
+            std::cout << v << " ";
+        }
+        std::cout << "\n";
+    }
+}
+
+int Digrafo::Kosaraju(std::vector<int> &componente)
 {
     stack<int> pilha;
     vector<bool> visitado(get_num_vertices(), false);
-    int componentes = 0;
+    int qtdComponentes = 0;
 
     // Passo 1: Preencher a pilha com a ordem de término dos vértices
     for (int i = 0; i < get_num_vertices(); i++)
@@ -148,10 +179,10 @@ int Digrafo::Kosaraju()
 
         if (!visitado[v])
         {
-            gT.DFSUtil(v, visitado);
-            componentes++;
+            gT.DFSUtil(v, visitado, qtdComponentes, componente);
+            qtdComponentes++;
         }
     }
 
-    return componentes;
+    return qtdComponentes;
 }
