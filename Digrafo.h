@@ -17,6 +17,7 @@ public:
     void createAresta(Aresta e);
     void removeAresta(Aresta e);
     void digrafoImprime();
+    void setTamanhoMatriz(int tam);
     int Kosaraju(std::vector<int> &componente);
     void DFS(int v, std::vector<bool> &visitado, std::stack<int> &pilha);
     void DFSUtil(int v, std::vector<bool> &visitado, int qtdComponentes, std::vector<int> &componente);

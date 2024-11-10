@@ -41,11 +41,9 @@ int main()
     }
 
     Digrafo condensado(1);
-    std::vector<int> componente;
-    cout << grafo.Kosaraju(componente);
-    // grafo.criaGrafoCondensado(grafo.Kosaraju(componente), condensado, grafo, componente);
-
-    cout << "oi";
+    std::vector<int> componente(grafo.get_num_vertices(), 0);
+    grafo.criaGrafoCondensado(grafo.Kosaraju(componente), condensado, grafo, componente);
+    condensado.mostraConexoesEntreCFCs(condensado);
 
     // Encontrar o número de componentes fortemente conectadas
     // condensado.mostraConexoesEntreCFCs(condensado);

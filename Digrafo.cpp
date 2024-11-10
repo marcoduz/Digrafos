@@ -32,6 +32,24 @@ std::vector<std::vector<int>> Digrafo::get_matriz()
     return matriz_;
 }
 
+void Digrafo::setTamanhoMatriz(int tam)
+{
+    matriz_.resize(tam);
+    for (int i = 0; i < tam; i++)
+    {
+        matriz_[i].resize(tam);
+    }
+
+    num_vertices_ = tam;
+
+    for (int i = 0; i < tam; i++)
+    {
+        for (int j = 0; j < tam; j++)
+        {
+            matriz_[i][j] = 0;
+        }
+    }
+}
 void Digrafo::setValorMatriz(int i, int j, int valor)
 {
     matriz_[i][j] = valor;
@@ -96,8 +114,9 @@ void Digrafo::DFSUtil(int v, vector<bool> &visitado, int qtdComponentes, std::ve
 {
     visitado[v] = true;
     componente[v] = qtdComponentes;
-    for (int i = 0; i < get_num_vertices(); i++)
+    for (int i = 0; i < num_vertices_; i++)
     {
+
         if (matriz_[v][i] && !visitado[i])
         {
             DFSUtil(i, visitado, qtdComponentes, componente);
@@ -125,15 +144,14 @@ Digrafo getTransposto(Digrafo &g)
 
 void Digrafo::criaGrafoCondensado(int numCFCs, Digrafo &condensado, Digrafo &g, std::vector<int> &componente)
 {
-    condensado.get_matriz().resize(numCFCs);
-
+    condensado.setTamanhoMatriz(numCFCs);
     for (int u = 0; u < g.get_num_vertices(); u++)
     {
         for (int v = 0; v < g.get_num_vertices(); v++)
         {
             if (g.get_matriz()[u][v] && componente[u] != componente[v])
             {
-                condensado.get_matriz()[componente[u]].push_back(componente[v]);
+                condensado.createAresta(Aresta(componente[u], componente[v]));
             }
         }
     }
@@ -141,14 +159,19 @@ void Digrafo::criaGrafoCondensado(int numCFCs, Digrafo &condensado, Digrafo &g, 
 
 void Digrafo::mostraConexoesEntreCFCs(Digrafo &condensado)
 {
-    for (int i = 0; i <= condensado.get_matriz().size(); i++)
+
+    for (int i = 0; i < condensado.get_num_vertices(); i++)
     {
-        std::cout << "CFC " << i << " está ligado a: ";
-        for (int v : condensado.get_matriz()[i])
+        int cont = 0;
+        std::cout << i << ": ";
+        for (int j = 0; j < condensado.get_num_vertices(); j++)
         {
-            std::cout << v << " ";
+            if (condensado.existeAresta(Aresta(i, j)))
+            {
+                cont++;
+            }
         }
-        std::cout << "\n";
+        std::cout << cont << "\n";
     }
 }
 
@@ -174,6 +197,7 @@ int Digrafo::Kosaraju(std::vector<int> &componente)
     // Passo 3: Processar os vértices na ordem definida pela pilha
     while (!pilha.empty())
     {
+
         int v = pilha.top();
         pilha.pop();
 
@@ -183,6 +207,6 @@ int Digrafo::Kosaraju(std::vector<int> &componente)
             qtdComponentes++;
         }
     }
-
+    // cout << "Quantidade de componentes fortemente conexos: " << qtdComponentes << endl;
     return qtdComponentes;
 }
