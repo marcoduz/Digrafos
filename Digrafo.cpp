@@ -1,3 +1,15 @@
+/*
+ * Tarefa 02 - Alteracoes de Transito
+ *
+ * GEN254 - Grafos - 2024/2
+ *
+ * Nome:      Marco Antonio Duz
+ * Matricula: 2311100006
+ *
+ * Nome:      Wendell Luis Neris
+ * Matricula: 2311100035
+ */
+
 #include "Digrafo.h"
 #include <iostream>
 #include <stdexcept>
@@ -6,6 +18,7 @@
 
 using namespace std;
 
+// --------- funções principais do grafo ---------------------------------------------------------
 Digrafo::Digrafo(int num_vertices)
 {
     if (num_vertices <= 0)
@@ -20,39 +33,6 @@ Digrafo::Digrafo(int num_vertices)
     {
         matriz_[i].resize(num_vertices, 0);
     }
-}
-
-int Digrafo::get_num_vertices()
-{
-    return num_vertices_;
-}
-
-std::vector<std::vector<int>> Digrafo::get_matriz()
-{
-    return matriz_;
-}
-
-void Digrafo::setTamanhoMatriz(int tam)
-{
-    matriz_.resize(tam);
-    for (int i = 0; i < tam; i++)
-    {
-        matriz_[i].resize(tam);
-    }
-
-    num_vertices_ = tam;
-
-    for (int i = 0; i < tam; i++)
-    {
-        for (int j = 0; j < tam; j++)
-        {
-            matriz_[i][j] = 0;
-        }
-    }
-}
-void Digrafo::setValorMatriz(int i, int j, int valor)
-{
-    matriz_[i][j] = valor;
 }
 
 bool Digrafo::verticeValido(int v)
@@ -97,6 +77,41 @@ void Digrafo::digrafoImprime()
     }
 }
 
+// --------- Get and Set -----------------------------------------------------------------------
+int Digrafo::get_num_vertices()
+{
+    return num_vertices_;
+}
+
+std::vector<std::vector<int>> Digrafo::get_matriz()
+{
+    return matriz_;
+}
+
+void Digrafo::setTamanhoMatriz(int tam)
+{
+    matriz_.resize(tam);
+    for (int i = 0; i < tam; i++)
+    {
+        matriz_[i].resize(tam);
+    }
+
+    num_vertices_ = tam;
+
+    for (int i = 0; i < tam; i++)
+    {
+        for (int j = 0; j < tam; j++)
+        {
+            matriz_[i][j] = 0;
+        }
+    }
+}
+void Digrafo::setValorMatriz(int i, int j, int valor)
+{
+    matriz_[i][j] = valor;
+}
+
+// --------- função kosaraju e seu auxiliares, que encontra as componentes fortemente conexas -------------------------------------------
 void Digrafo::DFS(int v, vector<bool> &visitado, stack<int> &pilha)
 {
     visitado[v] = true;
@@ -142,39 +157,6 @@ Digrafo getTransposto(Digrafo &g)
     return gT;
 }
 
-void Digrafo::criaGrafoCondensado(int numCFCs, Digrafo &condensado, Digrafo &g, std::vector<int> &componente)
-{
-    condensado.setTamanhoMatriz(numCFCs);
-    for (int u = 0; u < g.get_num_vertices(); u++)
-    {
-        for (int v = 0; v < g.get_num_vertices(); v++)
-        {
-            if (g.get_matriz()[u][v] && componente[u] != componente[v])
-            {
-                condensado.createAresta(Aresta(componente[u], componente[v]));
-            }
-        }
-    }
-}
-
-void Digrafo::mostraConexoesEntreCFCs(Digrafo &condensado)
-{
-
-    for (int i = 0; i < condensado.get_num_vertices(); i++)
-    {
-        int cont = 0;
-        std::cout << i << ": ";
-        for (int j = 0; j < condensado.get_num_vertices(); j++)
-        {
-            if (condensado.existeAresta(Aresta(i, j)))
-            {
-                cont++;
-            }
-        }
-        std::cout << cont << "\n";
-    }
-}
-
 int Digrafo::Kosaraju(std::vector<int> &componente)
 {
     stack<int> pilha;
@@ -209,4 +191,38 @@ int Digrafo::Kosaraju(std::vector<int> &componente)
     }
     // cout << "Quantidade de componentes fortemente conexos: " << qtdComponentes << endl;
     return qtdComponentes;
+}
+
+// --------- função que cria um grafo que representa as componentes fortemente conexas ---------------------------------------------------------
+void Digrafo::criaGrafoCondensado(int numCFCs, Digrafo &condensado, Digrafo &g, std::vector<int> &componente)
+{
+    condensado.setTamanhoMatriz(numCFCs);
+    for (int u = 0; u < g.get_num_vertices(); u++)
+    {
+        for (int v = 0; v < g.get_num_vertices(); v++)
+        {
+            if (g.get_matriz()[u][v] && componente[u] != componente[v])
+            {
+                condensado.createAresta(Aresta(componente[u], componente[v]));
+            }
+        }
+    }
+}
+
+void Digrafo::mostraConexoesEntreCFCs(Digrafo &condensado)
+{
+
+    for (int i = 0; i < condensado.get_num_vertices(); i++)
+    {
+        int cont = 0;
+        std::cout << i << ": ";
+        for (int j = 0; j < condensado.get_num_vertices(); j++)
+        {
+            if (condensado.existeAresta(Aresta(i, j)))
+            {
+                cont++;
+            }
+        }
+        std::cout << cont << "\n";
+    }
 }

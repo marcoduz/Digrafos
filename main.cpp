@@ -45,10 +45,5 @@ int main()
     grafo.criaGrafoCondensado(grafo.Kosaraju(componente), condensado, grafo, componente);
     condensado.mostraConexoesEntreCFCs(condensado);
 
-    // Encontrar o número de componentes fortemente conectadas
-    // condensado.mostraConexoesEntreCFCs(condensado);
-    //   int numCFCs, Digrafo &condensado, Digrafo &g, std::vector<int> &componente
-    // cout << "Número de componentes fortemente conectadas: " << num_componentes << endl;
-
     return 0;
 }
