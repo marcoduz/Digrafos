@@ -1,28 +1,25 @@
-/*
- * Tarefa 02 - Alteracoes de Transito
- *
- * GEN254 - Grafos - 2024/2
- *
- * Nome:      Marco Antonio Duz
- * Matricula: 2311100006
- * 
- * Nome:      Wendell Luis Neris
- * Matricula: 2311100035
- */
 #ifndef DIGRAFO_H
 #define DIGRAFO_H
 
 #include <vector>
 #include "Aresta.h"
+#include <stack>
 
-class Digrafo {
+class Digrafo
+{
 public:
     Digrafo(int num_vertices);
+    int get_num_vertices();
+    std::vector<std::vector<int>> get_matriz();
+    void setValorMatriz(int i, int j, int valor);
     bool verticeValido(int v);
     bool existeAresta(Aresta e);
     void createAresta(Aresta e);
     void removeAresta(Aresta e);
     void digrafoImprime();
+    int Kosaraju(); // Ajustado para retornar um inteiro
+    void DFS(int v, std::vector<bool> &visitado, std::stack<int> &pilha);
+    void DFSUtil(int v, std::vector<bool> &visitado);
 
 private:
     int num_vertices_;
@@ -30,8 +27,6 @@ private:
     std::vector<std::vector<int>> matriz_;
 };
 
-#endif // DIGRAFO_H
+Digrafo getTransposto(Digrafo &g);
 
-// void Kosaraju(Digrafo &g);
- // void DFS(Digrafo &g, int v, vector<bool> &visitado, stack<int> &pilha);
- // void DFSUtil(Digrafo &g, int v, vector<bool> &visitado);
+#endif // DIGRAFO_H
